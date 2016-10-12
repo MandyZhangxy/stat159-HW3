@@ -1,0 +1,59 @@
+---
+title: "Multiple Linear Regression"
+author: "Xinyu Zhang"
+date: "October 11, 2016"
+output: pdf_document
+---
+
+#Abstract 
+
+This report is about reproducing many regression analysis from Section 3.2 (pages 71-82), of *Chapter3. Linear Regression*, from the book "An Introduction to Statistical Learning" [(by James et al)](http://www-bcf.usc.edu/~gareth/ISL/)
+
+# Introduction
+
+The goal is to provide advice on how to improve sales of the particular product. The idea is to determine whether there is relationship between advertising expenditure and sales, and if so, we would like to know the strengh of this relationship and then we can instruct our client to adjust advertising budgets, thereby indirectly increasing sales.In other word, our goal is to develop an accurate model that can be used to prodict sales on the basis of the three media (TV, radio, newspaper) budgets.
+
+
+# Data
+
+The [Advertising data set](http://www-bcf.usc.edu/~gareth/ISL/Advertising.csv) consists of Sales (in thousands of units) of a particular product in 200 different markets (n = 200), along with advertising budgets (in thousands of dollars) for the product in each of those markets for three different media: TV, Radio, and Newspaper.
+
+
+
+setwd("/Users/MandyZhang/Desktop/stat_159/hw03")
+```{r xtable, results = 'asis',warning=FALSE, message=FALSE, echo=FALSE, comment = FALSE}
+load("../data/regression.RData")
+load("../data/correlation-matrix.RData")
+library(xtable)
+# table 1:
+print(xtable(summary(reg_TV)$coef, caption = "Simple regression of Sales on TV", type = "Latex"),comment = FALSE)
+# table 2:
+print(xtable(summary(reg_Radio)$coef, caption = "Simple regression of Sales on Radio", type = "Latex"), comment = FALSE)
+# table 3:
+print(xtable(summary(reg_Newspaper)$coef, caption = "Simple regression of Sales on Newspaper", type = "Latex"), comment = FALSE)
+# table 4:
+print(xtable(summary(reg_multi)$coef, caption = "Coefficient estimates of the least squares model", type = "Latex"), comment = FALSE)
+
+# table 5:
+print(xtable(corm_eda, caption = "Correlation matrix", type = "Latex"), comment = FALSE)
+
+```
+
+
+```{r,results = 'asis',warning=FALSE, message=FALSE, echo=FALSE, comment = FALSE}
+source("../code/functions/regression-functions.R")
+#table 6: 
+f = round(f_statistic(reg_multi),1)
+rse = round(residual_std_error(reg_multi),2)
+r2 = round(r_squared(reg_multi),3)
+c = c("Residual standard error","R2", "F-statistic")
+v = c(rse,r2,f)
+qq = data.frame(c,v)
+colnames(qq) <- c("Quantity","Value")
+print(xtable(qq, type = "html", caption = "Regression Quality Indices"),comment = FALSE, include.rownames = FALSE)
+```
+
+
+
+
+
