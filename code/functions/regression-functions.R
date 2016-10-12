@@ -11,7 +11,6 @@ total_sum_squares = function(w){
   sum((y-mean(y))^2)
 }
 
-
 ## R-squared
 r_squared = function(w){
   1-residual_sum_squares(w)/total_sum_squares(w)
