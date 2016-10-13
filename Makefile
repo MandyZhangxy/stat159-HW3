@@ -1,11 +1,14 @@
 
-.PHONY: data tests eda regression report clean all
+.PHONY: data tests eda regression report clean all session-info
 
 data:
 	cd data; curl --remote-name http://www-bcf.usc.edu/~gareth/ISL/Advertising.csv; cd ..
 
 
-all: eda regression report
+all: data eda regression report session-info
+
+session-info:
+	cd code/scripts/ && Rscript session-info-script.R; cd ../..
 
 eda: 
 	cd code/scripts/ && Rscript eda-script.R; cd ../..
@@ -17,7 +20,11 @@ regression:
 tests:
 	cd code/ && Rscript "test-that.R"
 
-report: report/report.rmd 
+function: 	
+	cd code/functions/ && Rscript "regression-functions.R"; cd ../..
+
+report: report/report.rmd regression eda function
+	Rscript -e 'library("rmarkdown");library("xtable"); rmarkdown::render("report/report.Rmd")'
 
 
 clean: rm -f report/report.pdf
