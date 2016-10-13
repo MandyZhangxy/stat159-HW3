@@ -1,10 +1,7 @@
-
-library("testthat")
-library("xtable")
-
-version
-
-version$platform
-version$version.string
-version$system
+sink('../../session-info.txt')
+library(testthat)
+library(rmarkdown)
+library(xtable)
+sessionInfo()
+sink()
 

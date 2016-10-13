@@ -4,19 +4,21 @@
 data:
 	cd data; curl --remote-name http://www-bcf.usc.edu/~gareth/ISL/Advertising.csv; cd ..
 
+
 all: eda regression report
 
-eda: code/scripts/eda-script.R data/
-	cd code/scripts/ && Rscript eda-script.R;
+eda: 
+	cd code/scripts/ && Rscript eda-script.R; cd ../..
 
 
-regression: code/scripts/regression-script.R data/
+regression:
 	cd code/scripts/ && Rscript regression-script.R; cd ../..
 
-tests: test-that.R
+tests:
+	cd tests/; Rscript -e "library(testthat); test_file('test-that.R')"
 
 report: report/report.rmd 
 
 
-clean: 
+clean: rm -f report/report.pdf
 	rm -rf report/report.pdf

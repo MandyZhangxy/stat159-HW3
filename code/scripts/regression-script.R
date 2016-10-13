@@ -7,7 +7,7 @@ reg_Radio = lm(eda$Sales~eda$Radio)
 reg_Newspaper = lm(eda$Sales~eda$Newspaper)
 reg_multi = lm(Sales~TV + Radio + Newspaper, data = eda)
 
-save(reg_TV,reg_Radio, reg_Newspaper, reg_multi, file = "data/regression.RData")
+save(reg_TV,reg_Radio, reg_Newspaper, reg_multi, file = "../../data/regression.RData")
 
 png(file = "../../images/scatterplot-tv-sales.png",width=8,height=6,units="in",res=100)
 

@@ -8,9 +8,19 @@ The puorpose of this assignment is to extend the scope of the previous HW2. In a
 
 In this repository 
 
-
+###For a "competent" user: if you want to recreate my analysis and report, you cna:
+1. git clone the repository or download it.
+2. In your terminal,`cd` into directory
+3. run the Makefile by comman `make all` and then it will execute all scripts and get all output such as `report.pdf`.
 
 
 Author: Xinyu Zhang
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-
+
+All source code (i.e. code in R script files) is licensed under GNU General Public License, version 3. See the LICENSE file for more information
+
+
+
+
+
