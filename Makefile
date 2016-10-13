@@ -15,7 +15,7 @@ regression:
 	cd code/scripts/ && Rscript regression-script.R; cd ../..
 
 tests:
-	cd tests/; Rscript -e "library(testthat); test_file('test-that.R')"
+	cd code/ && Rscript "test-that.R"
 
 report: report/report.rmd 
 
