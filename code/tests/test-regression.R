@@ -6,7 +6,7 @@ context("Test for residual_sum_squares function")
 test_that("RSS as expected", {
   reg = lm(mpg ~ disp + hp + wt, data = mtcars)
   reg_sum = summary(reg)
-  expect_equal(residual_sum_squares(reg), sum(reg$residuals^2))  #### not sure here
+  expect_equal(residual_sum_squares(reg), sum(reg$residuals^2)) 
   expect_length(residual_sum_squares(reg),1)
   expect_type(residual_sum_squares(reg),'double')
 })
