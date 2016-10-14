@@ -135,7 +135,7 @@ c = c("Residual standard error","R2", "F-statistic")
 v = c(rse,r2,f)
 qq = data.frame(c,v)
 colnames(qq) <- c("Quantity","Value")
-print(xtable(qq, type = "html", caption = "Regression Quality Indices"),comment = FALSE, include.rownames = FALSE)
+print(xtable(qq, type = "html", caption = "Regression Quality Indices: regression of Sales on TV, radio and nespaper"),comment = FALSE, include.rownames = FALSE)
 ```
 
 ####Q1:Is at least one of the predictors useful in predicting the response?
@@ -153,21 +153,31 @@ Table 4 displays the p-values for vairables.Both `TV` and `Radio` have a suffici
 
 ###Q3: How well does the model fit the data?
 
-Two of the most common numerical measures of model fit are the RSE and $R^2$, in multiple linear regression, the fraction of variance explained. $R^2$ equals $Cor(Y,\hat{Y})^2$, the square of the correlation between the response and the fitted linear model; in fact one property of the fitted linear model is that it maximizes this correlation among all possible linear models.
-
-An $R^2$ value close to 1 indicates that the model eplains a large portion of the vairance in the response variable. In table 6 
+A: An $R^2$ value close to 1 indicates that the model explains a large portion of the vairance in the response variable. In table 6 the model that uses all three advertising media to predict `sales` has an $R^2$ of `r r2`. In other words, this $R^2$ explain about `r paste(r2*100,"%")` of the variance in sales. 
 
 
+The mean value of Sales over all markets is approximately `r mean(reg_multi$model[[1]])` in thousand units, and the RSE is `r rse`. Therefore, the percentage error is RSE divided by Sales mean is `r paste(round(rse/mean(reg_multi$model[[1]])*100,2), "%")`.
 
-We can look to the R squared statistic and the residual standard error to examine this question. Our R squared is at about r round(summary_mult_reg$r.squared, 2), meaning the variables explain about r paste0(round(summary_mult_reg$r.squared, 2)*100, "%") of the variance in Sales. The RSE is at about r round(residual_std_error(mult_reg), 2) meaning by dividing RSE by the Sales mean, we get the percentage error of r paste0(round((residual_std_error(mult_reg)/mean(advertising$Sales)) * 100,2), "%").
+###Q4: How accurate is the prediction?
 
+Once we have fit the multiple regression model, there are three sorts of uncertainty associated with this prediction. 
 
+1.  The coefficient estimates $\hat{\beta_0},\hat{\beta_1},\hat{\beta_2},\hat{\beta_3}$ are estimates for $\beta_0,\beta_1,\beta_2,\beta_3$. That is, the *least squares plane*
+$$\hat{Y} = \hat{\beta_0}+\hat{\beta_1} X_1+\hat{\beta_2} X_2 + \hat{\beta_3} X_3$$
+is only an estimate for the *true population regression plane*
 
+$$f(Y) = \beta_0+\beta_1 X_1+\beta_2 X_2 + \beta_3 X_3$$
 
+The inaccuracy in the coefficent estimates is related to the *reducible error*. We can compute a *confidence interval* in order to determine how close $\hat{Y}$ will be to $f(X)$
 
+2. In practice assuming a linear model for $f(X)$ is almost always an approximation of reality, so there is an additional source of potentially reducible error which we call *model bias*. So when we use a linear model, we are in fact estimating the best linear approximation to the true surface. However, here we will ignore this discrepancy, and operate as if the linear model were correct. 
 
+3. Even if we knew $f(X)$ -- that is, even if we knew the true values for $\beta_0,\beta_1,\beta_2,\beta_3$-- the response value cannot be predicted perfectly because of the random error $\epsilon$ in the model. How much will $Y$ vary from $\hat{Y}$? We use *prediction intervals* to answer this question. Prediction intervals are always wider than confidence intervals, because they incorporate both the error in the estimate for $f(X)$ (the reducible error) and the uncertainty as to how much an individual point will differ from the population regression plane (the irreducible error). 
 
+In this case, we use a *confidence interval* to quantify the uncertainty surrounding the *average* `Sales` over a large number of cities. On the other hand, a *prediction interval* can be used to quantify the uncertainty surrounding `Sales` for a *particular* city. The prediction interval is substantially wider than the confidence interval, reflecting the increased uncertainty about `Sales` for a given city in comparison to the average `Sales` over many locations.
 
+# Conclusion
+Based on tables above (`F-statistic`) from multiple regression, we find that at least one of the predictors is useful in predicting the response `Sales`. However, we also find that not all of the predictors (based on p-values) are statistically significant. Therefore, the prediction would be more accurate without the varible `newspaper` based on its corresponding p-value. If we need more evidence to support, it would be better if we also do regression of `Sales` on `Radio` and `TV`, or regression of `Sales` on `Radio` and `Newspaper` and so on. Then, based on $R^2$, `RSE`, and `P-values`, we will find more specific evidence to support removing `newspaper` varible.
 
 
 
